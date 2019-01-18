@@ -57,6 +57,16 @@ module.exports = {
 
     return db.delete().from('actions').where('project_id', id);
 
+  },
+
+  getActionContexts: id => {
+
+    return db
+      .select('c.*')
+      .from('action_contexts as ac')
+      .join('contexts as c', 'c.id', 'ac.context_id')
+      .where('ac.action_id', id);
+
   }
 
 }

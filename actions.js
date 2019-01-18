@@ -32,6 +32,8 @@ server.get('/:id', async (req, res) => {
 
     const data = await db.getAction(id);
 
+    data[0].contexts = await db.getActionContexts(id);
+
     res.status(statusCodes.ok).json(data[0]);
 
   }
