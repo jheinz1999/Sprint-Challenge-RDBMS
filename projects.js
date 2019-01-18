@@ -24,6 +24,31 @@ server.get('/', async (req, res) => {
 
 });
 
+server.get('/:id/actions', async (req, res) => {
+
+  const { id } = req.params;
+
+  try {
+
+    const actions = await db.getProjectActions(id);
+
+    if (actions.length)
+      res.status(statusCodes.ok).json(actions);
+
+    else
+      res.status(statusCodes.not_found).json({message: 'No actions exist for that project'});
+
+  }
+
+  catch (err) {
+
+    console.log(err);
+    genericErr(err, res);
+
+  }
+
+});
+
 server.get('/:id', async (req, res) => {
 
   const { id } = req.params;
