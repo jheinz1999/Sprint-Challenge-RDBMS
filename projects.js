@@ -112,4 +112,42 @@ server.post('/', async (req, res) => {
 
 });
 
+server.delete('/:id', async (req, res) => {
+
+  try {
+
+    const { id } = req.params;
+
+    try {
+
+      const data = await db.getProject(id);
+
+      const actions = await db.getProjectActions(id);
+
+      data[0].actions = actions;
+
+      await db.removeProject(id);
+      await db.removeProjectActions(id);
+
+      res.status(statusCodes.ok).json(data[0]);
+
+    }
+
+    catch (err) {
+
+      console.log(err);
+      res.status(statusCodes.not_found).json({message: 'Project not found'});
+
+    }
+
+  }
+
+  catch (err) {
+
+    genericErr(err, res);
+
+  }
+
+});
+
 module.exports = server;

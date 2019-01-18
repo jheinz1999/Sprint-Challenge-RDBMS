@@ -47,4 +47,16 @@ module.exports = {
 
   },
 
+  removeProject: id => {
+
+    return db.delete().from('projects').where({ id });
+
+  },
+
+  removeProjectActions: id => {
+
+    return db.delete().from('actions').where('project_id', id);
+
+  }
+
 }
