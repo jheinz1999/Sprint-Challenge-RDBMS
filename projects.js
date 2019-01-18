@@ -24,6 +24,33 @@ server.get('/', async (req, res) => {
 
 });
 
+server.get('/:id', async (req, res) => {
+
+  const { id } = req.params;
+
+  try {
+
+    const data = await db.getProject(id);
+
+    const actions = await db.getProjectActions(id);
+
+    data[0].actions = actions;
+
+    console.log(data);
+
+    res.status(statusCodes.ok).json(data[0]);
+
+  }
+
+  catch (err) {
+
+    console.log(err);
+    res.status(statusCodes.not_found).json({message: 'Project not found'});
+
+  }
+
+});
+
 server.post('/', async (req, res) => {
 
   let { name, description, completed } = req.body;
@@ -47,7 +74,7 @@ server.post('/', async (req, res) => {
 
     const data = await db.getProject(id[0]);
 
-    res.status(statusCodes.ok).json(data);
+    res.status(statusCodes.created).json(data);
 
   }
 

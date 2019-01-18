@@ -35,6 +35,12 @@ module.exports = {
 
   },
 
+  getProjectActions: id => {
+
+    return db.select().from('actions').where('project_id', id);
+
+  },
+
   addAction: action => {
 
     return db.insert(action).into('actions');
